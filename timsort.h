@@ -1,3 +1,6 @@
+#ifndef __TIMSORT_H
+#define __TIMSORT_H
+
 #include <cstdlib>
 #include <iterator>
 #include "stack.h"
@@ -5,6 +8,8 @@
 #include "utils.h"
 #include "merge.h"
 
+namespace timsort
+{
 template<class PAIR, class Compare>
 void validateStack(Stack<PAIR> &stack, void *buf, Compare comp, const ITimSortParams &params)
 {
@@ -51,11 +56,12 @@ void validateStack(Stack<PAIR> &stack, void *buf, Compare comp, const ITimSortPa
     stack.push(y);
     stack.push(z);
 }
+}
 
 template<class RAI>
 void TimSort(RAI first, RAI last)
 {
-    TimSort(first, last, Less<typename std::iterator_traits<RAI>::value_type>(), DefaultTimSortParams());
+    TimSort(first, last, timsort::Less<typename std::iterator_traits<RAI>::value_type>(), DefaultTimSortParams());
 }
 
 template<class RAI, class Compare>
@@ -68,7 +74,7 @@ template<class RAI, class Compare>
 void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &params)
 {
     typedef typename std::iterator_traits<RAI>::value_type VAL;
-    Stack<Pair<RAI, size_t> > stack(int(3 * log(last - first)) + 5);
+    timsort::Stack<timsort::Pair<RAI, size_t> > stack(int(3 * log(last - first)) + 5);
     VAL *buf;
 #ifdef FORCE_INPLACE_MERGE
     buf = nullptr;
@@ -98,7 +104,7 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
         }
         if (descending)
         {
-            Reverse(i - runLen, i);
+            timsort::Reverse(i - runLen, i);
             descending = false;
         }
         if (runLen >= minRun)
@@ -110,19 +116,19 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
             descending = false;
             continue;
         }
-        Insertion(i - runLen, i, comp);
+        timsort::Insertion(i - runLen, i, comp);
         lastValue = *i;
     }
     if (descending)
     {
-        Reverse(last - runLen, last);
+        timsort::Reverse(last - runLen, last);
     }
     stack.push({last - runLen, runLen});
     while (stack.size() > 1)
     {
-        auto a = stack.pop();
-        auto b = stack.pop();
-        InplaceMerge(b.first, a.first, a.first + a.second, buf, comp, params.GetGallop());
+        timsort::Pair<RAI, size_t> a = stack.pop();
+        timsort::Pair<RAI, size_t> b = stack.pop();
+        timsort::InplaceMerge(b.first, a.first, a.first + a.second, buf, comp, params.GetGallop());
         b.second += a.second;
         stack.push(b);
     }
@@ -130,3 +136,5 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
         delete[] buf;
     return;
 };
+
+#endif

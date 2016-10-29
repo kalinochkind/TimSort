@@ -1,3 +1,6 @@
+#ifndef __TIMSORT_PARAMS_H
+#define __TIMSORT_PARAMS_H
+
 enum EWhatMerge
 {
     WM_NoMerge, WM_MergeXY, WM_MergeYZ
@@ -54,3 +57,5 @@ struct DefaultTimSortParams: public ITimSortParams
         return 7;
     }
 };
+
+#endif

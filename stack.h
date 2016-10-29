@@ -1,3 +1,8 @@
+#ifndef __STACK_H
+#define __STACK_H
+
+namespace timsort
+{
 template<class T>
 class Stack
 {
@@ -34,3 +39,5 @@ public:
     }
 
 };
+}
+#endif

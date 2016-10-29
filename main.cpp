@@ -149,7 +149,7 @@ bool TestPoints(size_t sz, int mod)
 {
 
     std::vector<Point3D> arr(sz);
-    for (auto &i : arr)
+    for (Point3D &i : arr)
     {
         i.x = rand() % mod;
         i.y = rand() % mod;
@@ -165,7 +165,7 @@ bool TestPoints(size_t sz, int mod)
 bool TestStrings(size_t str_cnt, size_t str_sz)
 {
     std::vector<std::string> arr(str_cnt);
-    for (auto &i : arr)
+    for (std::string &i : arr)
     {
         i.reserve(str_sz);
         for (size_t j = 0; j < str_sz; j++)

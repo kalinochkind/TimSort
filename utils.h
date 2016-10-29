@@ -1,3 +1,8 @@
+#ifndef __UTILS_H
+#define __UTILS_H
+
+namespace timsort
+{
 template<class RAI, class Compare>
 void Insertion(RAI begin, RAI end, Compare comp)
 {
@@ -29,13 +34,15 @@ struct Less
     }
 };
 
-template <class T1, class T2>
+template<class T1, class T2>
 struct Pair
 {
     T1 first;
     T2 second;
+
     Pair(const T1 &f, const T2 &s): first(f), second(s) {};
-    Pair(){};
+
+    Pair() {};
 };
 
 template<class T>
@@ -64,3 +71,5 @@ void Reverse(RAI begin, RAI end)
         Swap(*begin, *end);
     }
 }
+}
+#endif

@@ -1,10 +1,15 @@
+#ifndef __MERGE_H
+#define __MERGE_H
+
 #include <cmath>
 
+namespace timsort
+{
 template<class RAI, class VAL, class Compare>
 size_t Gallop(RAI begin, RAI end, const VAL &val, Compare comp)
 {
     size_t r = 1;
-    if(end - begin < 4)
+    if (end - begin < 4)
         return 0;
     while (comp(*(begin + r), val))
     {
@@ -259,3 +264,5 @@ void InplaceMerge(RAI begin, RAI middle, RAI end, void *buf, Compare comp, size_
         Insertion(begin + (block_count - 1) * block_size, begin + i, comp);
     }
 }
+}
+#endif
