@@ -4,10 +4,12 @@ template<class RAI, class VAL, class Compare>
 size_t Gallop(RAI begin, RAI end, const VAL &val, Compare comp)
 {
     size_t r = 1;
+    if(end - begin < 4)
+        return 0;
     while (comp(*(begin + r), val))
     {
         r <<= 1;
-        if (begin + r > end)
+        if (begin + r >= end)
         {
             r = end - begin;
             break;
