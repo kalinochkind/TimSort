@@ -51,6 +51,6 @@ struct DefaultTimSortParams: public ITimSortParams
     size_t GetGallop() const
     {
         //return rand();
-        return 42;
+        return 7;
     }
 };

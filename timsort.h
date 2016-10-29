@@ -72,6 +72,9 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
     typedef typename std::iterator_traits<RAI>::value_type VAL;
     std::stack<std::pair<RAI, size_t> > stack;
     VAL *buf;
+#ifdef FORCE_INPLACE_MERGE
+    buf = nullptr;
+#else
     try
     {
         buf = new VAL[last - first];
@@ -81,6 +84,7 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
     {
         buf = nullptr;
     }
+#endif
     int minRun = params.minRun(last - first);
     int runLen = 1;
     bool descending = false;
