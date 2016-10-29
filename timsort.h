@@ -1,22 +1,20 @@
-#include <stack>
 #include <cstdlib>
+#include <iterator>
+#include "stack.h"
 #include "timsort_params.h"
 #include "utils.h"
 #include "merge.h"
 
 template<class PAIR, class Compare>
-void validateStack(std::stack<PAIR> &stack, void *buf, Compare comp, const ITimSortParams &params)
+void validateStack(Stack<PAIR> &stack, void *buf, Compare comp, const ITimSortParams &params)
 {
     if (stack.size() < 2)
         return;
-    PAIR z = stack.top();
-    stack.pop();
-    PAIR y = stack.top();
-    stack.pop();
+    PAIR z = stack.pop();
+    PAIR y = stack.pop();
     if (stack.size() >= 3)
     {
-        PAIR x = stack.top();
-        stack.pop();
+        PAIR x = stack.pop();
         EWhatMerge wm = params.whatMerge(x.second, y.second, z.second);
         if (wm == WM_MergeXY)
         {
@@ -70,7 +68,7 @@ template<class RAI, class Compare>
 void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &params)
 {
     typedef typename std::iterator_traits<RAI>::value_type VAL;
-    std::stack<std::pair<RAI, size_t> > stack;
+    Stack<Pair<RAI, size_t> > stack(int(3 * log(last - first)) + 5);
     VAL *buf;
 #ifdef FORCE_INPLACE_MERGE
     buf = nullptr;
@@ -85,8 +83,8 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
         buf = nullptr;
     }
 #endif
-    int minRun = params.minRun(last - first);
-    int runLen = 1;
+    size_t minRun = params.minRun(last - first);
+    size_t runLen = 1;
     bool descending = false;
     VAL lastValue = *first;
     for (RAI i = first + 1; i < last; ++i, ++runLen)
@@ -122,10 +120,8 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
     stack.push({last - runLen, runLen});
     while (stack.size() > 1)
     {
-        auto a = stack.top();
-        stack.pop();
-        auto b = stack.top();
-        stack.pop();
+        auto a = stack.pop();
+        auto b = stack.pop();
         InplaceMerge(b.first, a.first, a.first + a.second, buf, comp, params.GetGallop());
         b.second += a.second;
         stack.push(b);

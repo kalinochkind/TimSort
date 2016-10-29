@@ -29,6 +29,15 @@ struct Less
     }
 };
 
+template <class T1, class T2>
+struct Pair
+{
+    T1 first;
+    T2 second;
+    Pair(const T1 &f, const T2 &s): first(f), second(s) {};
+    Pair(){};
+};
+
 template<class T>
 void Swap(T &a, T &b)
 {
