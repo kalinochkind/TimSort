@@ -126,6 +126,19 @@ bool TestPartiallySorted(size_t part_cnt, size_t part_sz)
     return IsSorted(arr.begin(), arr.end(), brr.begin(), brr.end());
 }
 
+bool TestInplaceMerge()
+{
+    // This test fails if we do not consider the last element of the block when sorting them in InplaceMerge
+    std::vector<int> arr = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+                            1, 1};
+    std::vector<int> brr = arr;
+    START_TIMER;
+    TimSort(arr.begin(), arr.end());
+    END_TIMER;
+    return IsSorted(arr.begin(), arr.end(), brr.begin(), brr.end());
+}
+
 struct Point3D
 {
     int x, y, z;
@@ -182,6 +195,7 @@ int main()
 {
     //begin:
     srand(time(0));
+    TEST(TestInplaceMerge());
     TEST(TestCArray(100));
     TEST(TestCArray(10000000));
     TEST(TestRandom(3));
