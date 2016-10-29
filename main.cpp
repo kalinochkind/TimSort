@@ -139,6 +139,21 @@ bool TestInplaceMerge()
     return IsSorted(arr.begin(), arr.end(), brr.begin(), brr.end());
 }
 
+bool TestSmallRun()
+{
+    std::vector<int> arr(200);
+    for(int i=0;i<100;++i)
+    {
+        arr[i] = i;
+    }
+    arr[100] = -1;
+    std::vector<int> brr = arr;
+    START_TIMER;
+    TimSort(arr.begin(), arr.begin() + 101);
+    END_TIMER;
+    return IsSorted(arr.begin(), arr.begin() + 101, brr.begin(), brr.begin() + 101);
+}
+
 struct Point3D
 {
     int x, y, z;
@@ -196,6 +211,7 @@ int main()
     //begin:
     srand(time(0));
     TEST(TestInplaceMerge());
+    TEST(TestSmallRun())
     TEST(TestCArray(100));
     TEST(TestCArray(10000000));
     TEST(TestRandom(3));
