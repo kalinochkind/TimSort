@@ -21,7 +21,7 @@ struct ITimSortParams
 
 struct DefaultTimSortParams: public ITimSortParams
 {
-    size_t minRun(size_t n) const
+    size_t minRun(size_t) const
     {
         return 12; // sure
     }

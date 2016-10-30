@@ -68,7 +68,7 @@ template<class RAI, class Compare>
 void TimSort(RAI first, RAI last, Compare comp)
 {
     TimSort(first, last, comp, DefaultTimSortParams());
-};
+}
 
 template<class RAI, class Compare>
 void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &params)
@@ -135,6 +135,6 @@ void TimSort(RAI first, RAI last, const Compare &comp, const ITimSortParams &par
     if (buf)
         delete[] buf;
     return;
-};
+}
 
 #endif

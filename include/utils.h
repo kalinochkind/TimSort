@@ -42,7 +42,7 @@ struct Pair
 
     Pair(const T1 &f, const T2 &s): first(f), second(s) {};
 
-    Pair() {};
+    Pair(): first(), second() {};
 };
 
 template<class T>

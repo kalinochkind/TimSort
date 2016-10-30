@@ -9,10 +9,7 @@ class Stack
     T *arr;
     size_t _size;
 public:
-    explicit Stack(size_t sz): _size(0)
-    {
-        arr = new T[sz];
-    }
+    explicit Stack(size_t sz): arr(new T[sz]), _size(0) {}
 
     Stack(Stack<T> &a) = delete;
 
