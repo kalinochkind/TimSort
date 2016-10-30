@@ -1,4 +1,4 @@
 .idea
-a.out
 gen.cpp
 CMakeLists.txt
+*.exe
