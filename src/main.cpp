@@ -5,10 +5,7 @@
 #include <ctime>
 #include <algorithm>
 
-#define ALIGN(x, sz) (x+std::string(std::max(0,int(sz)-int(strlen(x))), ' '))
-#define TEST(x) {_counter=-1000;std::cout<<ALIGN(#x":",35);std::cout.flush();bool __res=x;if(__res)\
-{std::cout<<(_counter)/1000<<" ms (std: " << _std_counter/1000 <<" ms)\n";}\
-else{std::cout<<"FAILED!\n";return 1;}}
+#define TEST(x) RunTest(#x, [](){return (x);})
 #define START_TIMER _counter=clock()
 #define END_TIMER _counter=clock()-_counter
 
@@ -206,12 +203,37 @@ bool TestStrings(size_t str_cnt, size_t str_sz)
     return IsSorted(arr.begin(), arr.end(), brr.begin(), brr.end());
 }
 
+std::string Align(const std::string &x, size_t sz)
+{
+    return x + std::string(std::max(0, int(sz) - int(x.size())), ' ');
+}
+
+const size_t MAX_TEST_NAME = 35;
+
+void RunTest(const std::string &name, bool a())
+{
+    _counter = -1000;
+    std::cout << Align(name + ":", MAX_TEST_NAME);
+    std::cout.flush();
+    bool res = a();
+    if(res)
+    {
+        std::cout << _counter /1000 << " ms (std: " << _std_counter / 1000 << " ms)\n";
+    }
+    else
+    {
+        std::cout << "FAILED!\n";
+        exit(1);
+    }
+}
+
+
 int main()
 {
     //begin:
     srand(time(0));
     TEST(TestInplaceMerge());
-    TEST(TestSmallRun())
+    TEST(TestSmallRun());
     TEST(TestCArray(100));
     TEST(TestCArray(10000000));
     TEST(TestRandom(3));
