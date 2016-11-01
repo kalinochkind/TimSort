@@ -13,6 +13,7 @@ namespace timsort
 template<class PAIR, class Compare>
 void validateStack(Stack<PAIR> &stack, void *buf, Compare comp, const ITimSortParams &params)
 {
+    validate_stack_begin:
     if (stack.size() < 2)
         return;
     PAIR z = stack.pop();
@@ -27,7 +28,7 @@ void validateStack(Stack<PAIR> &stack, void *buf, Compare comp, const ITimSortPa
             x.second += y.second;
             stack.push(x);
             stack.push(z);
-            validateStack(stack, buf, comp, params);
+            goto validate_stack_begin;
         }
         else if (wm == WM_MergeYZ)
         {
@@ -35,7 +36,7 @@ void validateStack(Stack<PAIR> &stack, void *buf, Compare comp, const ITimSortPa
             y.second += z.second;
             stack.push(x);
             stack.push(y);
-            validateStack(stack, buf, comp, params);
+            goto validate_stack_begin;
         }
         else
         {
@@ -50,7 +51,7 @@ void validateStack(Stack<PAIR> &stack, void *buf, Compare comp, const ITimSortPa
         InplaceMerge(y.first, z.first, z.first + z.second, buf, comp, params.GetGallop());
         y.second += z.second;
         stack.push(y);
-        validateStack(stack, buf, comp, params);
+        goto validate_stack_begin;
         return;
     }
     stack.push(y);
